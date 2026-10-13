@@ -137,6 +137,57 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
 .diagram svg .sub{font-size:12px;fill:var(--muted)}
 .diagram figcaption{margin-top:12px;font-size:.85rem;color:var(--muted)}
 
+
+/* 3D viewer */
+.viewer{margin-top:28px}
+.viewer-stage{position:relative;aspect-ratio:16/10;background:#000;border:1px solid var(--line);overflow:hidden;cursor:grab;touch-action:pan-y}
+.viewer-stage:active{cursor:grabbing}
+.viewer-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;outline:none}
+.viewer-stage:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+.viewer-poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .7s}
+.viewer.ready .viewer-poster{opacity:0;pointer-events:none}
+.viewer-pins{position:absolute;inset:0;pointer-events:none}
+.pin{
+  position:absolute;left:0;top:0;width:22px;height:22px;margin:-11px 0 0 -11px;padding:0;
+  border:1.5px solid rgba(255,255,255,.9);border-radius:50%;background:rgba(0,0,0,.5);
+  cursor:pointer;pointer-events:auto;transition:opacity .25s,border-color .2s;will-change:transform;
+}
+.pin::before{content:"";position:absolute;inset:6px;border-radius:50%;background:#fff;transition:background-color .2s}
+.pin:hover,.pin.on{border-color:var(--hot)}
+.pin.on::before{background:var(--hot)}
+.pin.hide{opacity:0;pointer-events:none}
+.pin .tip{
+  position:absolute;left:30px;top:50%;transform:translateY(-50%);white-space:nowrap;
+  padding:3px 9px;background:rgba(0,0,0,.88);border:1px solid var(--line);
+  font:500 .78rem/1.4 "Archivo",system-ui,sans-serif;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.pin.flip .tip{left:auto;right:30px}
+.pin:hover .tip,.pin:focus-visible .tip,.pin.on .tip{opacity:1}
+.viewer .viewer-hint{position:absolute;left:14px;bottom:12px;margin:0;max-width:calc(100% - 28px);font-size:.78rem;line-height:1.4;color:var(--muted);transition:opacity .5s;pointer-events:none}
+.viewer .viewer-hint.gone{opacity:0}
+.viewer.ready .viewer-loading{display:none}
+.viewer-loading{position:absolute;left:0;right:0;bottom:0;padding:0 14px 12px;font-size:.78rem;color:var(--muted)}
+.viewer-loading[hidden]{display:none}
+.viewer-progress{height:2px;margin-top:8px;background:var(--line)}
+.viewer-progress i{display:block;height:100%;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.viewer.nogl .viewer-hint{display:none}
+.h-touch{display:none}
+@media (hover:none){.h-mouse{display:none}.h-touch{display:inline}}
+.viewer-bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.viewer .viewer-bar[hidden],.viewer .viewer-info[hidden]{display:none}
+.vgap{flex:1 1 12px}
+.vbtn{
+  font:inherit;font-size:.88rem;color:var(--ink);background:none;
+  border:1px solid var(--line-strong);padding:.45em .95em;cursor:pointer;
+  transition:background-color .2s,color .2s,border-color .2s;
+}
+.vbtn:hover{background:rgba(255,255,255,.1)}
+.vbtn[aria-pressed="true"]{background:var(--ink);color:#000;border-color:var(--ink)}
+.viewer .viewer-info{margin:16px 0 0;max-width:62ch;min-height:5.4em}
+.viewer .viewer-info strong{display:block;font-weight:600}
+.viewer .viewer-info span{display:block;color:var(--muted);font-size:.95rem;line-height:1.55;margin-top:2px}
+@media (max-width:520px){.viewer-stage{aspect-ratio:4/3}.vgap{display:none}}
+
 /* components */
 .legend{max-width:62ch;margin:0 0 20px;font-size:.9rem;color:var(--muted)}
 .parts{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
@@ -198,6 +249,7 @@ footer p{margin:0 0 6px;max-width:70ch}
 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
 .wi{display:inline-block;will-change:transform}
 .anim .site-header{opacity:0}
+.anim .viewer-stage{clip-path:inset(0 0 100% 0)}
 .anim .hero h1,.anim .layout > h2,.anim .rq{visibility:hidden}
 .anim .logo{clip-path:inset(0 100% 0 0)}
 .anim #thermal{clip-path:inset(0 0 100% 0)}
@@ -222,6 +274,7 @@ footer p{margin:0 0 6px;max-width:70ch}
     <nav class="site-nav" aria-label="Sections">
       <a href="#idea">Project</a>
       <a href="#how">How it works</a>
+      <a href="#board">Raspberry Pi</a>
       <a href="#components">Components</a>
       <a href="#testing">Testing</a>
       <a href="#limits">Limits</a>
@@ -349,6 +402,33 @@ footer p{margin:0 0 6px;max-width:70ch}
         </svg>
         <figcaption>Planned signal flow. Orange dashed outlines are planned additions, grey dashed lines are optional or planned connections.</figcaption>
       </figure>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="board" aria-labelledby="h-board">
+  <div class="wrap layout">
+    <h2 id="h-board">The main computer</h2>
+    <div class="prose">
+      <p>RESQ-X runs on a Raspberry Pi 5. This is a 3D model of the board. Drag to rotate it, then select a marker to see what that part does for the robot.</p>
+      <div class="viewer" id="pi-viewer" data-model="assets/models/raspberry-pi-5.glb">
+        <div class="viewer-stage" tabindex="0" role="group" aria-label="Interactive 3D model of a Raspberry Pi 5. Use the arrow keys to rotate and the plus and minus keys to zoom.">
+          <img class="viewer-poster" src="assets/pi5-poster.webp" alt="Raspberry Pi 5 board seen from above at an angle" width="1490" height="934" loading="lazy">
+          <div class="viewer-pins"></div>
+          <p class="viewer-hint"><span class="h-mouse">Drag to rotate. Hold Ctrl or Cmd and scroll to zoom. Double-click to reset.</span><span class="h-touch">Drag sideways to rotate. Tap a marker to see what the part does.</span></p>
+          <div class="viewer-loading"><span>Loading 3D model</span><div class="viewer-progress"><i></i></div></div>
+        </div>
+        <div class="viewer-bar" hidden>
+          <button type="button" class="vbtn" data-act="rotate" aria-pressed="false">Auto-rotate</button>
+          <button type="button" class="vbtn" data-act="labels" aria-pressed="true">Markers</button>
+          <span class="vgap"></span>
+          <button type="button" class="vbtn" data-act="top">Top</button>
+          <button type="button" class="vbtn" data-act="ports">Ports</button>
+          <button type="button" class="vbtn" data-act="under">Underside</button>
+          <button type="button" class="vbtn" data-act="reset">Reset</button>
+        </div>
+        <p class="viewer-info" aria-live="polite" hidden><strong>Select a marker</strong><span>Each marker names a part of the board and what it does for RESQ-X.</span></p>
+      </div>
     </div>
   </div>
 </section>
@@ -486,6 +566,22 @@ footer p{margin:0 0 6px;max-width:70ch}
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/js/motion.js"></script>
+<script>
+/* Load the 3D viewer only when the section is close to the viewport. */
+(function () {
+  var v = document.getElementById('pi-viewer');
+  if (!v) return;
+  function load() {
+    var s = document.createElement('script');
+    s.src = 'assets/js/pi-viewer.js';
+    s.onload = function () { if (window.RESQPiViewer) window.RESQPiViewer.init(v); };
+    document.body.appendChild(s);
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { o.disconnect(); load(); } }, { rootMargin: '600px' }).observe(v);
+  } else { load(); }
+})();
+</script>
 <script>
 /* Safety net: if the motion layer did not start, never leave content hidden. */
 window.addEventListener("load",function(){setTimeout(function(){if(!window.__motion)document.documentElement.classList.remove("anim");},2500);});

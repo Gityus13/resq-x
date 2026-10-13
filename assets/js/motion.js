@@ -63,7 +63,7 @@
       gsap.to(ink, { x: a.offsetLeft, width: a.offsetWidth, opacity: 1, duration: wasNone ? 0.3 : 0.55 });
       nav.scrollTo({ left: a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
     }
-    var spy = { idea: 'idea', problem: 'idea', aim: 'idea', how: 'how', components: 'components',
+    var spy = { idea: 'idea', problem: 'idea', aim: 'idea', how: 'how', board: 'board', components: 'components',
                 testing: 'testing', results: 'testing', limits: 'limits', why: null, conclusion: null, team: 'team' };
     Object.keys(spy).forEach(function (id) {
       var sec = document.getElementById(id);
@@ -193,6 +193,10 @@
         packetTweens.forEach(function (t) { self.isActive ? t.play() : t.pause(); });
       }
     });
+
+    /* ---------- 3D viewer: stage wipes open, then the controls arrive ---------- */
+    gsap.timeline({ scrollTrigger: { trigger: '.viewer', start: 'top 82%', once: true } })
+      .fromTo('.viewer-stage', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.3, ease: 'power3.inOut' }, 0);
 
     /* ---------- components ---------- */
     gsap.timeline({ scrollTrigger: { trigger: '.parts', start: 'top 82%', once: true } })

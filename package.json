@@ -1,0 +1,12 @@
+{
+  "name": "resq-x-site",
+  "private": true,
+  "description": "RESQ-X project website. The site itself needs no build step; this is only for rebuilding the 3D viewer bundle.",
+  "scripts": {
+    "build:viewer": "esbuild src/pi-viewer.js --bundle --minify --format=iife --legal-comments=none --outfile=assets/js/pi-viewer.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "three": "0.170.0"
+  }
+}

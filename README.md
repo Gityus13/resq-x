@@ -136,11 +136,16 @@ This repository contains the project website: a single static page with no build
 ├── 404.html            # not-found page for GitHub Pages
 ├── assets/
 │   ├── js/motion.js        # GSAP animation layer
+│   ├── js/pi-viewer.js     # 3D viewer (three.js, bundled, loads on demand)
+│   ├── models/raspberry-pi-5.glb   # 3D Raspberry Pi 5 model
+│   ├── pi5-poster.webp     # still image shown while the model loads
 │   ├── vendor/             # GSAP 3.12.5 + ScrollTrigger (self-hosted)
 │   ├── logo.jpg            # RESQ-X logo, cropped for the page
 │   ├── logo-original.jpg   # logo as originally supplied
 │   ├── favicon.svg
 │   └── favicon.png
+├── src/pi-viewer.js    # source of the 3D viewer
+├── package.json        # only needed to rebuild the viewer bundle
 ├── robots.txt
 ├── .nojekyll           # tells GitHub Pages to serve files as-is
 ├── .gitignore
@@ -160,9 +165,29 @@ Motion is built with [GSAP](https://gsap.com) and ScrollTrigger (files in `asset
 
 All of it is progressive enhancement. With `prefers-reduced-motion` enabled, or if the scripts fail to load, the page is fully visible and static. GSAP is used under the [GSAP Standard License](https://gsap.com/standard-license).
 
+### 3D Raspberry Pi viewer
+
+The "main computer" section shows an interactive 3D model of the Raspberry Pi 5:
+
+- drag to rotate, double-click to reset, hold Ctrl or Cmd and scroll to zoom (plain scrolling still scrolls the page)
+- arrow keys rotate and `+` / `-` zoom when the viewer is focused, so it works without a mouse
+- markers name the main parts (processor, memory, GPIO header, camera connectors, ports and more); selecting one flies the camera to it, and markers hide when the part is out of sight
+- view buttons: Top, Ports, Underside, Reset, plus auto-rotate and a markers toggle
+
+The viewer and the 3.4 MB model only load when the section is about to scroll into view. If WebGL is unavailable, the page shows a still image instead.
+
+The model was converted from the supplied STEP file to glTF (`.glb`) with realistic materials. The viewer bundle is built from `src/pi-viewer.js`; to change it:
+
+```bash
+npm install
+npm run build:viewer
+```
+
+**Model credit:** add the author, source and license of the 3D model here before publishing: `TODO`.
+
 ### Run it locally
 
-Open `index.html` in a browser, or serve the folder:
+The 3D model has to be loaded over HTTP, so serve the folder rather than opening the file directly:
 
 ```bash
 python3 -m http.server 8000
