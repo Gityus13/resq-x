@@ -135,6 +135,8 @@ This repository contains the project website: a single static page with no build
 ├── index.html          # the website (HTML, CSS and JS in one file)
 ├── 404.html            # not-found page for GitHub Pages
 ├── assets/
+│   ├── js/motion.js        # GSAP animation layer
+│   ├── vendor/             # GSAP 3.12.5 + ScrollTrigger (self-hosted)
 │   ├── logo.jpg            # RESQ-X logo, cropped for the page
 │   ├── logo-original.jpg   # logo as originally supplied
 │   ├── favicon.svg
@@ -145,6 +147,18 @@ This repository contains the project website: a single static page with no build
 ├── LICENSE
 └── README.md
 ```
+
+### Animations
+
+Motion is built with [GSAP](https://gsap.com) and ScrollTrigger (files in `assets/vendor/`, no CDN needed), and is kept deliberately restrained:
+
+- a single intro sequence: logo wipe, headline words rising out of a mask, and a scan line that reveals the simulated thermal grid
+- a scroll progress line and a section indicator in the header
+- section rules that draw in, headings that reveal word by word, and body text that comes up to full contrast as you read
+- the signal-flow diagram draws itself, then small pulses travel along the core connections only (planned parts stay still)
+- the testing plan highlights each step as you scroll
+
+All of it is progressive enhancement. With `prefers-reduced-motion` enabled, or if the scripts fail to load, the page is fully visible and static. GSAP is used under the [GSAP Standard License](https://gsap.com/standard-license).
 
 ### Run it locally
 

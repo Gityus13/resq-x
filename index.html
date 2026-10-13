@@ -6,6 +6,7 @@
 <title>RESQ-X: An Earthquake Rescue Robot</title>
 <meta name="description" content="RESQ-X is a small remote-controlled robot designed to help rescuers inspect dangerous areas after earthquakes. An educational engineering project by Yusif Gurbanzade and Tahir.">
 <meta name="theme-color" content="#000000">
+<script>(function(){var r=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(!r)document.documentElement.classList.add("anim");})();</script>
 <meta property="og:type" content="website">
 <meta property="og:title" content="RESQ-X: An Earthquake Rescue Robot">
 <meta property="og:description" content="A small remote-controlled robot with a camera, a planned thermal sensor and a planned lifting arm, built to help rescuers inspect dangerous areas after earthquakes.">
@@ -60,8 +61,11 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
   font-size:.92rem;
 }
 .site-nav::-webkit-scrollbar{display:none}
-.site-nav a{color:var(--muted);text-decoration:none}
-.site-nav a:hover{color:var(--ink)}
+.site-nav{position:relative;padding:4px 0 8px}
+.site-nav a{color:var(--muted);text-decoration:none;transition:color .3s}
+.site-nav a:hover,.site-nav a[aria-current="true"]{color:var(--ink)}
+.nav-ink{position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--hot);opacity:0}
+.progress{position:absolute;left:0;bottom:-1px;width:100%;height:2px;background:var(--hot);transform:scaleX(0);transform-origin:left}
 
 /* hero */
 .hero{position:relative;overflow:hidden;padding:56px 0 64px}
@@ -72,6 +76,7 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
   mask-image:radial-gradient(ellipse at 62% 46%,#000 22%,transparent 70%);
 }
 .hero-thermal canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+.scan{position:absolute;left:0;right:0;top:0;height:2px;opacity:0;pointer-events:none;background:linear-gradient(90deg,transparent,var(--hot) 25%,#ffd9b8 50%,var(--hot) 75%,transparent);box-shadow:0 0 18px 2px rgba(255,106,26,.55)}
 .hero-body{position:relative}
 .logo{display:block;width:min(600px,100%);height:auto;mix-blend-mode:screen;margin-left:-4px}
 .hero h1{
@@ -80,8 +85,12 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
 }
 .lead{margin:20px 0 0;max-width:56ch;color:var(--muted);font-size:1.125rem}
 .hero-status{
-  margin:28px 0 0;max-width:60ch;padding-left:16px;
-  border-left:3px solid var(--hot);font-size:.98rem;
+  margin:28px 0 0;max-width:60ch;padding-left:16px;font-size:.98rem;
+}
+.hero-status,.rq,.note{position:relative}
+.hero-status::before,.rq::before,.note::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--hot);
+  transform:scaleY(var(--bar-s,1));transform-origin:top;
 }
 .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .btn{
@@ -94,13 +103,15 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
 .caption{margin:20px 0 0;max-width:62ch;font-size:.8rem;color:var(--muted)}
 .glance{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;
-  margin:56px 0 0;padding:20px 0 0;border-top:1px solid var(--line);
+  position:relative;margin:56px 0 0;padding:20px 0 0;
 }
+.glance::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--line);transform:scaleX(var(--gl-s,1));transform-origin:left}
 .glance dt{font-size:.85rem;color:var(--muted)}
 .glance dd{margin:2px 0 0;font-weight:600;line-height:1.4}
 
 /* content sections */
-.block{border-top:1px solid var(--line);padding:72px 0}
+.block{position:relative;padding:72px 0}
+.block::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--line);transform:scaleX(var(--line-s,1));transform-origin:left}
 .layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,8fr);gap:48px}
 .layout > *{min-width:0}
 .layout > h2{
@@ -115,10 +126,9 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
 .prose ul.plain li{margin-bottom:.6em}
 .rq{
   margin:28px 0 0;padding:0 0 0 20px;max-width:26em;
-  border-left:3px solid var(--hot);
   font-size:clamp(1.35rem,2.6vw,1.9rem);line-height:1.25;font-weight:700;font-stretch:112%;
 }
-.note{max-width:62ch;margin-top:1.4em;padding-left:16px;border-left:3px solid var(--hot);font-size:.98rem}
+.note{max-width:62ch;margin-top:1.4em;padding-left:16px;font-size:.98rem}
 
 /* diagram */
 .diagram{margin:36px 0 0;overflow-x:auto}
@@ -134,6 +144,8 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
   display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:14px;align-items:baseline;
   padding:14px 0;border-bottom:1px solid var(--line);
 }
+.part{transition:background-color .3s}
+.part:hover{background:rgba(255,255,255,.035)}
 .part .dot{width:10px;height:10px;border-radius:50%;background:var(--ink);transform:translateY(1px)}
 .part.planned .dot{background:none;border:2px solid var(--hot)}
 .part.optional .dot{background:none;border:2px solid var(--muted)}
@@ -149,6 +161,11 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
   padding:14px 0;border-bottom:1px solid var(--line);
 }
 .steps li::before{content:counter(step);font-weight:700;font-stretch:112%;color:var(--muted)}
+
+.steps-wrap{position:relative;padding-left:28px}
+.rail{position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--line)}
+.rail i{display:block;width:100%;height:100%;background:var(--ink);transform-origin:top}
+.steps li::before{transition:color .4s}
 
 /* references */
 .refs{list-style:none;margin:0;padding:0}
@@ -177,6 +194,21 @@ footer p{margin:0 0 6px;max-width:70ch}
   .part{grid-template-columns:20px minmax(0,1fr)}
   .part .tag{grid-column:2}
 }
+/* motion: initial states only exist while the "anim" class is on <html> */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
+.wi{display:inline-block;will-change:transform}
+.anim .site-header{opacity:0}
+.anim .hero h1,.anim .layout > h2,.anim .rq{visibility:hidden}
+.anim .logo{clip-path:inset(0 100% 0 0)}
+.anim #thermal{clip-path:inset(0 0 100% 0)}
+.anim .hero-status,.anim .lead,.anim .actions,.anim .caption,.anim .glance > div{opacity:0}
+.anim .hero-status,.anim .rq,.anim .note{--bar-s:0}
+.anim .glance{--gl-s:0}
+.anim .block{--line-s:0}
+.anim .rail i{transform:scaleY(0)}
+.anim .steps li{color:var(--muted);transition:color .4s}
+.anim .steps li.on{color:var(--ink)}
+.anim .steps li.on::before{color:var(--ink)}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
 }
@@ -194,8 +226,10 @@ footer p{margin:0 0 6px;max-width:70ch}
       <a href="#testing">Testing</a>
       <a href="#limits">Limits</a>
       <a href="#team">Team</a>
+      <span class="nav-ink" aria-hidden="true"></span>
     </nav>
   </div>
+  <div class="progress" aria-hidden="true"></div>
 </header>
 
 <main id="top">
@@ -203,6 +237,7 @@ footer p{margin:0 0 6px;max-width:70ch}
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero-thermal" aria-hidden="true">
     <canvas id="thermal" width="32" height="24"></canvas>
+    <i class="scan"></i>
   </div>
   <div class="wrap hero-body">
     <img class="logo" src="assets/logo.jpg" alt="RESQ-X logo" width="769" height="236">
@@ -346,6 +381,8 @@ footer p{margin:0 0 6px;max-width:70ch}
     <h2 id="h-testing">Methodology and testing plan</h2>
     <div class="prose">
       <p>We plan to develop and test RESQ-X in several steps:</p>
+      <div class="steps-wrap">
+      <div class="rail" aria-hidden="true"><i></i></div>
       <ol class="steps">
         <li>Assemble the robot's frame, wheels, motors and belt system.</li>
         <li>Connect the motors to the motor driver boards and set up the power system.</li>
@@ -358,6 +395,7 @@ footer p{margin:0 0 6px;max-width:70ch}
         <li>Create a safe obstacle course using lightweight materials.</li>
         <li>Test the robot's movement, turning, remote control, camera, lifting mechanism and thermal readings.</li>
       </ol>
+      </div>
       <p class="note">We will record our observations and use them to identify problems and improve the design. Testing will take place in a controlled environment, not in a real earthquake or collapsed building.</p>
     </div>
   </div>
@@ -445,6 +483,13 @@ footer p{margin:0 0 6px;max-width:70ch}
   </div>
 </footer>
 
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/motion.js"></script>
+<script>
+/* Safety net: if the motion layer did not start, never leave content hidden. */
+window.addEventListener("load",function(){setTimeout(function(){if(!window.__motion)document.documentElement.classList.remove("anim");},2500);});
+</script>
 <script>
 /* Simulated 32x24 thermal view (the MLX90640 resolution). Decorative only. */
 (function () {
