@@ -64,7 +64,7 @@
       nav.scrollTo({ left: a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' });
     }
     var spy = { idea: 'idea', problem: 'idea', aim: 'idea', how: 'how', board: 'board', components: 'components',
-                testing: 'testing', results: 'testing', limits: 'limits', why: null, conclusion: null, team: 'team' };
+                testing: 'testing', results: 'testing', limits: 'limits', why: null, conclusion: null, video: 'video', team: 'team' };
     Object.keys(spy).forEach(function (id) {
       var sec = document.getElementById(id);
       if (!sec) return;
@@ -216,6 +216,16 @@
         onLeaveBack: function () { li.classList.remove('on'); }
       });
     });
+
+    /* ---------- video, team photos, gallery ---------- */
+    if ($('.video-frame')) {
+      gsap.timeline({ scrollTrigger: { trigger: '.video-frame', start: 'top 82%', once: true } })
+        .fromTo('.video-frame', { clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)', duration: 1.3, ease: 'power3.inOut' }, 0);
+      gsap.from('.person', { opacity: 0, y: 14, duration: 0.7, stagger: 0.1,
+        scrollTrigger: { trigger: '.people', start: 'top 85%', once: true } });
+      gsap.from('.shot', { opacity: 0, y: 14, duration: 0.6, stagger: 0.07,
+        scrollTrigger: { trigger: '.gallery', start: 'top 88%', once: true } });
+    }
 
     /* layout shifts when web fonts arrive */
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
