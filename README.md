@@ -6,7 +6,7 @@
 
 <p align="center">
   A small remote-controlled robot designed to help rescuers inspect dangerous areas after earthquakes.<br>
-  Engineering project by <strong>Yusif Gurbanzade</strong> and <strong>Tahir</strong>, European Azerbaijan School.
+  Engineering project by <strong>Yusif Gurbanzade</strong> and <strong>Tahir Rahimov</strong>, European Azerbaijan School.
 </p>
 
 ---
@@ -139,6 +139,9 @@ This repository contains the project website: a single static page with no build
 │   ├── js/pi-viewer.js     # 3D viewer (three.js, bundled, loads on demand)
 │   ├── models/raspberry-pi-5.glb   # 3D Raspberry Pi 5 model
 │   ├── pi5-poster.webp     # still image shown while the model loads
+│   ├── video/              # resq-x.mp4 + poster.jpg (team video)
+│   ├── team/               # yusif-gurbanzade.jpg, tahir-rahimov.jpg
+│   ├── photos/             # photo-1.jpg ... photo-4.jpg
 │   ├── vendor/             # GSAP 3.12.5 + ScrollTrigger (self-hosted)
 │   ├── logo.jpg            # RESQ-X logo, cropped for the page
 │   ├── logo-original.jpg   # logo as originally supplied

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RESQ-X: An Earthquake Rescue Robot</title>
-<meta name="description" content="RESQ-X is a small remote-controlled robot designed to help rescuers inspect dangerous areas after earthquakes. An educational engineering project by Yusif Gurbanzade and Tahir.">
+<meta name="description" content="RESQ-X is a small remote-controlled robot designed to help rescuers inspect dangerous areas after earthquakes. An educational engineering project by Yusif Gurbanzade and Tahir Rahimov.">
 <meta name="theme-color" content="#000000">
 <script>(function(){var r=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;if(!r)document.documentElement.classList.add("anim");})();</script>
 <meta property="og:type" content="website">
@@ -227,6 +227,29 @@ code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.88em
 .team dt{font-size:.85rem;color:var(--muted)}
 .team dd{margin:2px 0 0;font-weight:600}
 
+/* video + photos */
+.video-frame{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);overflow:hidden}
+.video-frame video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
+.video-cap{margin:12px 0 0;max-width:62ch;font-size:.85rem;color:var(--muted)}
+.people{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:0}
+.person{margin:0}
+.ph{
+  position:relative;display:block;aspect-ratio:4/5;background:#0a0a0a;border:1px solid var(--line);overflow:hidden;
+}
+.ph::after{
+  content:attr(data-initials);position:absolute;inset:0;display:grid;place-items:center;z-index:0;
+  font-weight:800;font-stretch:125%;font-size:3rem;color:rgba(255,255,255,.12);
+}
+.ph img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;display:block}
+.person figcaption{margin-top:12px}
+.person strong{display:block;font-weight:600}
+.person span{display:block;color:var(--muted);font-size:.9rem}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.gallery .ph{aspect-ratio:4/3}
+.gallery .ph::after{content:"RESQ-X";font-size:1.4rem}
+.prose h3.sub-h{margin:2.4em 0 .9em}
+@media (max-width:520px){.people{grid-template-columns:1fr}}
+
 footer{border-top:1px solid var(--line);padding:32px 0 48px;color:var(--muted);font-size:.9rem}
 footer p{margin:0 0 6px;max-width:70ch}
 
@@ -249,7 +272,7 @@ footer p{margin:0 0 6px;max-width:70ch}
 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em;margin-bottom:-.14em}
 .wi{display:inline-block;will-change:transform}
 .anim .site-header{opacity:0}
-.anim .viewer-stage{clip-path:inset(0 0 100% 0)}
+.anim .viewer-stage,.anim .video-frame{clip-path:inset(0 0 100% 0)}
 .anim .hero h1,.anim .layout > h2,.anim .rq{visibility:hidden}
 .anim .logo{clip-path:inset(0 100% 0 0)}
 .anim #thermal{clip-path:inset(0 0 100% 0)}
@@ -278,6 +301,7 @@ footer p{margin:0 0 6px;max-width:70ch}
       <a href="#components">Components</a>
       <a href="#testing">Testing</a>
       <a href="#limits">Limits</a>
+      <a href="#video">Video</a>
       <a href="#team">Team</a>
       <span class="nav-ink" aria-hidden="true"></span>
     </nav>
@@ -305,7 +329,7 @@ footer p{margin:0 0 6px;max-width:70ch}
 
     <dl class="glance">
       <div><dt>Category</dt><dd>Engineering</dd></div>
-      <div><dt>Team</dt><dd>Yusif Gurbanzade and Tahir</dd></div>
+      <div><dt>Team</dt><dd>Yusif Gurbanzade and Tahir Rahimov</dd></div>
       <div><dt>School</dt><dd>European Azerbaijan School</dd></div>
       <div><dt>Control</dt><dd>PS5 DualSense, manual or AI-assisted (planned)</dd></div>
     </dl>
@@ -534,12 +558,49 @@ footer p{margin:0 0 6px;max-width:70ch}
   </div>
 </section>
 
+<section class="block" id="video" aria-labelledby="h-video">
+  <div class="wrap layout">
+    <h2 id="h-video">Video and photos</h2>
+    <div class="prose">
+      <p>Watch us talk about the device: what RESQ-X is, how it is built and what we want it to do.</p>
+      <div class="video-frame">
+        <!-- Put your video at assets/video/resq-x.mp4 and a still image at assets/video/poster.jpg -->
+        <video controls playsinline preload="metadata" poster="assets/video/poster.jpg">
+          <source src="assets/video/resq-x.mp4" type="video/mp4">
+          Your browser can't play this video.
+        </video>
+      </div>
+      <p class="video-cap">Video: Yusif Gurbanzade and Tahir Rahimov talk about RESQ-X.</p>
+
+      <h3 class="sub-h">The team</h3>
+      <div class="people">
+        <figure class="person">
+          <div class="ph" data-initials="YG"><img src="assets/team/yusif-gurbanzade.jpg" alt="Yusif Gurbanzade" loading="lazy" onerror="this.remove()"></div>
+          <figcaption><strong>Yusif Gurbanzade</strong><span>RESQ-X team, European Azerbaijan School</span></figcaption>
+        </figure>
+        <figure class="person">
+          <div class="ph" data-initials="TR"><img src="assets/team/tahir-rahimov.jpg" alt="Tahir Rahimov" loading="lazy" onerror="this.remove()"></div>
+          <figcaption><strong>Tahir Rahimov</strong><span>RESQ-X team, European Azerbaijan School</span></figcaption>
+        </figure>
+      </div>
+
+      <h3 class="sub-h">Our pictures</h3>
+      <ul class="gallery">
+        <li class="shot"><div class="ph"><img src="assets/photos/photo-1.jpg" alt="RESQ-X project photo 1" loading="lazy" onerror="this.remove()"></div></li>
+        <li class="shot"><div class="ph"><img src="assets/photos/photo-2.jpg" alt="RESQ-X project photo 2" loading="lazy" onerror="this.remove()"></div></li>
+        <li class="shot"><div class="ph"><img src="assets/photos/photo-3.jpg" alt="RESQ-X project photo 3" loading="lazy" onerror="this.remove()"></div></li>
+        <li class="shot"><div class="ph"><img src="assets/photos/photo-4.jpg" alt="RESQ-X project photo 4" loading="lazy" onerror="this.remove()"></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="team" aria-labelledby="h-team">
   <div class="wrap layout">
     <h2 id="h-team">Team and references</h2>
     <div class="prose">
       <dl class="team">
-        <div><dt>Team members</dt><dd>Yusif Gurbanzade and Tahir</dd></div>
+        <div><dt>Team members</dt><dd>Yusif Gurbanzade and Tahir Rahimov</dd></div>
         <div><dt>School</dt><dd>European Azerbaijan School</dd></div>
         <div><dt>Project category</dt><dd>Engineering</dd></div>
       </dl>
@@ -559,7 +620,7 @@ footer p{margin:0 0 6px;max-width:70ch}
 <footer>
   <div class="wrap">
     <p>RESQ-X is a small educational prototype, not a professional rescue robot. All results are expected outcomes until the prototype has been tested.</p>
-    <p>By Yusif Gurbanzade and Tahir, European Azerbaijan School.</p>
+    <p>By Yusif Gurbanzade and Tahir Rahimov, European Azerbaijan School.</p>
   </div>
 </footer>
 
